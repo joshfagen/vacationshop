@@ -4,16 +4,23 @@ function UploadLocationPage() {
     
     const [locationValue, setLocationValue] = useState('');
 
-    const [descriptionValue, setDescriptionValue] = useState('');
     const onLocationChange = (event) => {
 
         setLocationValue(event.currentTarget.value);   
         
     };
 
+    const [descriptionValue, setDescriptionValue] = useState('');
+
     const onDescriptionChange = (event) => {
         setDescriptionValue(event.currentTarget.value);
     };
+
+    const [priceValue, setPriceValue] = useState(0);
+
+    const onPriceChange = (event) => {
+        setPriceValue(event.currentTarget.value);
+    }
 
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -49,8 +56,8 @@ function UploadLocationPage() {
                 
                 <label>Price ($) </label>
                 <input 
-                    onChange
-                    value
+                    onChange={onPriceChange}
+                    value={priceValue}
                     type="number"
                 />
 
