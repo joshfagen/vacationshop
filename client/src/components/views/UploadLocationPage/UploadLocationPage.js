@@ -1,6 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 function UploadLocationPage() {
+    
+    const [locationValue, setLocationValue] = useState('');
+
+    const onLocationChange = (event) => {
+
+        setLocationValue(event.currentTarget.value);   
+        
+    };
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem'}}>
@@ -13,10 +22,10 @@ function UploadLocationPage() {
                 <br />
                 <br />
                 
-                <label>Title</label>
+                <label>Location Name </label>
                 <input 
-                    onChange
-                    value
+                    onChange={onLocationChange}
+                    value={locationValue}
                 />
 
                 <br />
