@@ -4,10 +4,15 @@ function UploadLocationPage() {
     
     const [locationValue, setLocationValue] = useState('');
 
+    const [descriptionValue, setDescriptionValue] = useState('');
     const onLocationChange = (event) => {
 
         setLocationValue(event.currentTarget.value);   
         
+    };
+
+    const onDescriptionChange = (event) => {
+        setDescriptionValue(event.currentTarget.value);
     };
 
     return (
@@ -26,21 +31,23 @@ function UploadLocationPage() {
                 <input 
                     onChange={onLocationChange}
                     value={locationValue}
+                    placeholder="Enter Location"
                 />
 
                 <br />
                 <br />
                 
-                <label>Description</label>
+                <label>Description </label>
                 <textarea
-                    onChange
-                    value
+                    onChange={onDescriptionChange}
+                    value={descriptionValue}
+                    placeholder="short description of the location"
                 />
 
                 <br />
                 <br />
                 
-                <label>Price ($)</label>
+                <label>Price ($) </label>
                 <input 
                     onChange
                     value
