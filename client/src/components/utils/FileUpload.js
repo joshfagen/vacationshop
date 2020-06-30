@@ -29,6 +29,15 @@ function FileUpload(props) {
         });
     };
 
+    const onDelete = (image) => {
+        const currentIndex = images.indexOf(image);
+
+        let newImages = images.splice(currentIndex, 1);
+
+        setImages(newImages);
+        props.refreshFunction(newImages);
+    };
+
     return (
         <div style={{ 
             display: 'flex',
@@ -64,10 +73,21 @@ function FileUpload(props) {
                         height: '240px',
                         overflowX: 'scroll'
                     }}>
+                        {images.map((image, index) => (
+                            <div onClick={() => onDelete(image)}>
+                                <img 
+                                    style={{ 
+                                        minWidth: '300px', 
+                                        width: '300px', 
+                                        height: '240px'
+                                    }}
+                                    src={`http://localhost:5000/${image}`} alt={`locationImg-${index}`}
+                                />
+                            </div>
+                        ))}
+                        
                     </div>
-                        <div onClick>
-                            <img />
-                        </div>
+                        
         </div>
     )
 }

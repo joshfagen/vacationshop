@@ -33,8 +33,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get('/', function() {
-  console.log('server running');
+app.get('/', function(req, res) {
+  res.json('yay!!');
 })
 app.use('/api/users', require('./routes/users'));
 app.use('/api/location', require('./routes/location'));
