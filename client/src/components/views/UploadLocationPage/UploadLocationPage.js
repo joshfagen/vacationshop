@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
+import FileUpload from '../../utils/FileUpload';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -253,6 +254,10 @@ const Countries = [
 function UploadLocationPage() {
     
     const [locationValue, setLocationValue] = useState('');
+    const [descriptionValue, setDescriptionValue] = useState('');
+    const [priceValue, setPriceValue] = useState(0);
+    const [countryValue, setCountryValue] = useState('US');
+    const [images, setImages] = useState([]);
 
     const onLocationChange = (event) => {
 
@@ -260,14 +265,11 @@ function UploadLocationPage() {
         
     };
 
-    const [descriptionValue, setDescriptionValue] = useState('');
-
+    
     const onDescriptionChange = (event) => {
         setDescriptionValue(event.currentTarget.value);
     };
 
-    const [priceValue, setPriceValue] = useState(0);
-    const [countryValue, setCountryValue] = useState('US')
     const onPriceChange = (event) => {
         setPriceValue(event.currentTarget.value);
     }
@@ -278,6 +280,10 @@ function UploadLocationPage() {
         setCountryValue(event.currentTarget.value);
     };
 
+    const updateImages = (newImages) => {
+        setImages(newImages);   
+    }
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem'}}>
@@ -285,8 +291,9 @@ function UploadLocationPage() {
             </div>
 
             <Form onSubmit>
-                { /* Drop Zone */}
 
+                { /* Drop Zone */}
+                <FileUpload refreshFunction={updateImages}/>
                 <br />
                 <br />
                 
