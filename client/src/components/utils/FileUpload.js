@@ -31,9 +31,13 @@ function FileUpload(props) {
 
     const onDelete = (image) => {
         const currentIndex = images.indexOf(image);
-
-        let newImages = images.splice(currentIndex, 1);
-
+        let newImages;
+        if(images.length != 0) {
+            newImages = images.splice(currentIndex, 1);
+        } else {
+            newImages = [];
+        }
+        
         setImages(newImages);
         props.refreshFunction(newImages);
     };

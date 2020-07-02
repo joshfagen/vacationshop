@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { User } = require("../models/User");
+const { Location } = require("../models/Location");
 
 const { auth } = require("../middleware/auth");
 
@@ -40,4 +40,14 @@ router.post("/uploadImage", auth, (req, res) => {
     })
 });
 
+router.post("/uploadLocation", auth, (req, res) => {
+    const location = new Location(req.body);
+    location.save((err) => {
+        if(err) {
+            return res.status(400).json({ success: false, err });
+        } else {
+            return res.status(200).json({ success: true });
+        }
+    });
+})
 module.exports = router;

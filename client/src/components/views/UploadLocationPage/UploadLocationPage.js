@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import FileUpload from '../../utils/FileUpload';
+import Axios from 'axios';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -251,7 +252,7 @@ const Countries = [
     {name: 'Zambia', code: 'ZM'}, 
     {name: 'Zimbabwe', code: 'ZW'} 
   ];
-function UploadLocationPage() {
+function UploadLocationPage(props) {
     
     const [locationValue, setLocationValue] = useState('');
     const [descriptionValue, setDescriptionValue] = useState('');
@@ -285,13 +286,38 @@ function UploadLocationPage() {
         setImages(newImages);   
     }
 
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        const variables = {
+            creator: props.user.userData._id,
+            name: locationValue,
+            description: descriptionValue,
+            price: priceValue,
+            images: images,
+            country: countryValue,
+        }
+
+        Axios.post('/api/location/uploadLocation')
+            .then( (response) => {
+                if(response.data.success) {
+                    alert('Location added!');
+                    props.history.push('/');
+
+                } else {
+                    alert('Failed to add location');
+                
+                }
+            });
+    }
+
     return (
         <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem'}}>
                 <Title level={2}>Upload Location</Title>
             </div>
 
-            <Form onSubmit>
+            <Form onSubmit={onSubmit}>
 
                 { /* Drop Zone */}
                 <FileUpload refreshFunction={updateImages}/>
@@ -338,7 +364,9 @@ function UploadLocationPage() {
                 <br />
                 <br />
 
-                <Button>
+                <Button
+                    onClick={onSubmit}
+                >
                     Submit
                 </Button>
             </Form>
