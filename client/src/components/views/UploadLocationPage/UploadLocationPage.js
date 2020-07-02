@@ -289,6 +289,14 @@ function UploadLocationPage(props) {
     const onSubmit = (event) => {
         event.preventDefault();
 
+        if(!locationValue 
+            || !descriptionValue
+            || !priceValue 
+            || !countryValue
+            || !images) {
+                return alert('All fields must be filled!');
+            }
+
         const variables = {
             creator: props.user.userData._id,
             name: locationValue,
