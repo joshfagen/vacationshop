@@ -9,9 +9,11 @@ const locationSchema = mongoose.Schema({
     name: {
         type: String,
         maxlength: 50,
+        default: 'User'
     },
     description: {
-        type: String
+        type: String,
+        default: 'basic description'
     },
     price: {
         type: Number,

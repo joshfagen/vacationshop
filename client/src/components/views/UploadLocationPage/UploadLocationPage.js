@@ -306,7 +306,7 @@ function UploadLocationPage(props) {
             country: countryValue,
         }
 
-        Axios.post('/api/location/uploadLocation')
+        Axios.post('/api/location/uploadLocation', variables)
             .then( (response) => {
                 if(response.data.success) {
                     alert('Location added!');
@@ -365,7 +365,7 @@ function UploadLocationPage(props) {
                 <select onChange={onCountryChange}>
                     
                     {Countries.map(item => (
-                         <option key={item.code} value={item.code}>{item.name}</option>
+                         <option key={item.code} value={item.name}>{item.name}</option>
                     ))}
                 </select>
 
