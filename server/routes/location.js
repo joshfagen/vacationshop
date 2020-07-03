@@ -50,4 +50,15 @@ router.post("/uploadLocation", auth, (req, res) => {
         }
     });
 })
+
+router.post('/getLocations', auth, (req, res) => {
+    Location.find()
+        .exec((err, locations) => {
+            if(err) {
+                return res.status(400).json({ success: false, err });
+            }
+
+            res.status(200).json({ success: true, locations });
+        });
+});
 module.exports = router;
