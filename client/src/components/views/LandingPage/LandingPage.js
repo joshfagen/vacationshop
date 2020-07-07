@@ -9,7 +9,8 @@ function LandingPage() {
     const { Info } = Card;
     var [locations, setLocations] = useState([]);
     const [skip, setSkip] = useState(0);
-    const [limit, setLimit] = useState(8);
+    const [limit, setLimit] = useState(6);
+    const [locationsShown, setLocationsShown] = useState(0);
 
     useEffect(() => {
        const variables = {
@@ -26,23 +27,36 @@ function LandingPage() {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.locations);
-                    setLocations(response.data.locations);
+                    setLocations([...locations, ...response.data.locations]);
+                    setLocationsShown(response.data.locationsShown);
                 } else {
                     alert('failed to load locations');
                 }
             });
-    }
+    };
+
+    const onLoadMore = () => {
+        let Skip = skip + limit;
+
+        const variables = {
+            skip: Skip,
+            limit: limit
+        };
+
+        getLocations(variables);
+        setSkip(Skip);
+    };
 
     const renderCards = locations.map((location, index) => {
         console.log(location);
-        return <Col lg={6} md={8} xs={24}>
+        return <Col lg={8} md={12} xs={24}>
             <Card
                 hoverable={true}
                 cover={<ImageSlider images={location.images}/>}
             >
-            <h2>{location.name}</h2>
+            <h2>{location.name.toUpperCase()}</h2>
             <p>${location.price}</p>
-            <h3>{location.description}</h3>
+            <h3>{location.description.toUpperCase()}</h3>
             </Card>
             
         
@@ -61,9 +75,14 @@ function LandingPage() {
                 <h2><a href="/location/upload">Add a Location!</a></h2>
             
             </div>:
+             
             <div>
+                <div style={{ display: 'flex', height: '100px', justifyContent: 'center', alignItems: 'center'}}>
+                    <h2><a href="/location/upload">Add a Location!</a></h2>
+            
+                </div>
                 <div>
-                    <Row gutter={[16, 16]}>
+                    <Row type="flex" gutter={[16, 16]}>
                         
                         {renderCards}
                     </Row>
@@ -71,9 +90,12 @@ function LandingPage() {
             
                 <br />
                 <br />
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
-                    <button>Load More</button>
-                </div>
+                {locationsShown >= limit && 
+                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                        <button onClick={onLoadMore}>Load More</button>
+                    </div>
+                }
+                
             </div>
         
         }
