@@ -1,25 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import { Icon } from 'antd';
+import React, { useState, useEffect} from 'react';
+import { Icon, Col, Card, Row} from 'antd';
 import { FaCode } from "react-icons/fa";
+import  ImageSlider from "../../utils/ImageSlider";
 import Axios from 'axios';
 
 
 function LandingPage() {
-
-    const [locations, setLocations] = useState([]);
+    const { Info } = Card;
+    var [locations, setLocations] = useState([]);
+    const [skip, setSkip] = useState(0);
+    const [limit, setLimit] = useState(8);
 
     useEffect(() => {
-       
-        Axios.post('/api/location/getLocations')
+       const variables = {
+        skip: skip,
+        limit: limit,
+       };
+
+       getLocations(variables);
+        
+    }, []);
+
+    const getLocations = (variables) => {
+        Axios.post('/api/location/getLocations', variables)
             .then(response => {
                 if(response.data.success) {
-                    setLocations(response.data.locations);
                     console.log(response.data.locations);
+                    setLocations(response.data.locations);
                 } else {
                     alert('failed to load locations');
                 }
             });
-    }, [])
+    }
+
+    const renderCards = locations.map((location, index) => {
+        console.log(location);
+        return <Col lg={6} md={8} xs={24}>
+            <Card
+                hoverable={true}
+                cover={<ImageSlider images={location.images}/>}
+            >
+            <h2>{location.name}</h2>
+            <p>${location.price}</p>
+            <h3>{location.description}</h3>
+            </Card>
+            
+        
+        </Col>
+    });
     
     return (
         <div style={{ width: '75%', margin: '3rem auto' }}>
@@ -34,11 +62,23 @@ function LandingPage() {
             
             </div>:
             <div>
+                <div>
+                    <Row gutter={[16, 16]}>
+                        
+                        {renderCards}
+                    </Row>
+                </div>
             
+                <br />
+                <br />
+                <div style={{ display: 'flex', justifyContent: 'center'}}>
+                    <button>Load More</button>
+                </div>
             </div>
         
         }
 
+                
         </div>
     )
 }
