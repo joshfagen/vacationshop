@@ -26,6 +26,10 @@ const locationSchema = mongoose.Schema({
     country: {
         type: String,
     },
+    continent: {
+        type: String,
+        default: 'Europe'
+    },
     sold: {
         type: Number,
         default: 0
