@@ -320,6 +320,8 @@ function UploadLocationPage(props) {
         } else {
             setCountries(samericanCountries);
         }
+
+        setContinentValue(event.currentTarget.value);
         
     };
 
