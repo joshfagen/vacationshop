@@ -51,7 +51,7 @@ router.post("/uploadLocation", auth, (req, res) => {
     });
 })
 
-router.post('/getLocations', auth, (req, res) => {
+router.post('/getLocations', (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;

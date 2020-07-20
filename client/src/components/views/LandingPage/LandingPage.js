@@ -3,7 +3,7 @@ import { Icon, Col, Card, Row} from 'antd';
 import { FaCode } from "react-icons/fa";
 import  ImageSlider from "../../utils/ImageSlider";
 import Axios from 'axios';
-
+import CheckBox from './Sections/CheckBox';
 
 function LandingPage() {
     const { Info } = Card;
@@ -64,11 +64,12 @@ function LandingPage() {
     });
     
     return (
+        
         <div style={{ width: '75%', margin: '3rem auto' }}>
             <div style={{ textAlign: 'center' }}>
                 <h2>Let's Travel The World! <Icon type="rocket"></Icon><Icon type="global"></Icon></h2>
             </div>
-
+        <CheckBox />
         
         { locations.length == 0 ? 
             <div style={{ display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center'}}>
