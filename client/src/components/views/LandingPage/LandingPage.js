@@ -11,6 +11,10 @@ function LandingPage() {
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(6);
     const [locationsShown, setLocationsShown] = useState(0);
+    const [Filters, setFilters] = useState({
+        continent: [],
+        price: []
+    });
 
     useEffect(() => {
        const variables = {
@@ -26,8 +30,12 @@ function LandingPage() {
         Axios.post('/api/location/getLocations', variables)
             .then(response => {
                 if(response.data.success) {
-                    console.log(response.data.locations);
-                    setLocations([...locations, ...response.data.locations]);
+                    if(variables.loadMore) {
+                        console.log(locations);
+                        setLocations([...locations, ...response.data.locations]);
+                    } else {
+                        setLocations(response.data.locations);
+                    }
                     setLocationsShown(response.data.locationsShown);
                 } else {
                     alert('failed to load locations');
@@ -40,7 +48,8 @@ function LandingPage() {
 
         const variables = {
             skip: Skip,
-            limit: limit
+            limit: limit,
+            loadMore: true,
         };
 
         getLocations(variables);
@@ -54,7 +63,7 @@ function LandingPage() {
                 hoverable={true}
                 cover={<ImageSlider images={location.images}/>}
             >
-            <h2>{location.name.toUpperCase()}</h2>
+            <h2>{location.name.toUpperCase()}, {location.country.toUpperCase()}</h2>
             <p>${location.price}</p>
             <h3>{location.description.toUpperCase()}</h3>
             </Card>
@@ -62,14 +71,42 @@ function LandingPage() {
         
         </Col>
     });
+
+    const showFilteredResults = (filters) => {
+        const variables = {
+            skip: 0,
+            limit: limit,
+            filters: filters,
+        };
+
+        getLocations(variables);
+    };
+    const handleFilters = (filters, category) => {
+        
+        const newFilters = {...Filters};
+        newFilters[category] = filters;
+
+        if(category == 'price') {
+            console.log('price filter');
+        } 
+
+        showFilteredResults(newFilters);
+        setFilters(newFilters);
+        
     
+    };
+
+  
+
     return (
         
         <div style={{ width: '75%', margin: '3rem auto' }}>
             <div style={{ textAlign: 'center' }}>
                 <h2>Let's Travel The World! <Icon type="rocket"></Icon><Icon type="global"></Icon></h2>
             </div>
-        <CheckBox />
+        <CheckBox 
+            handleFilters={filters => handleFilters(filters, "continents")}
+        />
         
         { locations.length == 0 ? 
             <div style={{ display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center'}}>

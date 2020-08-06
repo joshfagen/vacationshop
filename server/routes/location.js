@@ -57,8 +57,22 @@ router.post('/getLocations', (req, res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
     let skip = req.body.skip;
     
+    let findArgs = {};
 
-    Location.find()
+    for (let key in req.body.filters) {
+        if(req.body.filters[key].length > 0) {
+            
+            if(key == 'price') {
+                //  handle prices
+            } else {
+                // handle continents
+                findArgs[key] = req.body.filters[key];
+                console.log(findArgs);
+            }
+        }
+    }
+
+    Location.find(findArgs)
         .populate("writer")
         .sort([[sortBy, order]])
         .skip(skip)
